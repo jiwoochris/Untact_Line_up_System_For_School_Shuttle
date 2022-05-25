@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "43445649102",
+    "firebase_url": "https://mudange-d2ab0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mudange-d2ab0",
+    "storage_bucket": "mudange-d2ab0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43445649102:android:1e2c7a34957ad50e939a9f",
+        "android_client_info": {
+          "package_name": "com.example.seproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43445649102-l3c5r8f1jsbr8rvc7otkf5hmb2mbadte.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkqqRk5qgFXsSu0xu23NeU8kHz1VQqtA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43445649102-l3c5r8f1jsbr8rvc7otkf5hmb2mbadte.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
