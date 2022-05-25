@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         database = FirebaseDatabase.getInstance();
-        bus = database.getReference("A");
+        bus = database.getReference("B");
         l1 = bus.child("l1");
         l2 = bus.child("l2");
         state = bus.child("state");
