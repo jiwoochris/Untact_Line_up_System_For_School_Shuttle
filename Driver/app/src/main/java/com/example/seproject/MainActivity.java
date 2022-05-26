@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     FirebaseDatabase database;
     DatabaseReference bus;
+    DatabaseReference A;
     DatabaseReference l1;
     DatabaseReference l2;
     DatabaseReference state;
@@ -55,10 +56,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         database = FirebaseDatabase.getInstance();
-        bus = database.getReference("A");
-        l1 = bus.child("l1");
-        l2 = bus.child("l2");
-        state = bus.child("state");
+        bus = database.getReference("bus");
+
+        A = bus.child("C");
+
+        l1 = A.child("l1");
+        l2 = A.child("l2");
+        state = A.child("state");
 
         turn = false;
         updateDb(state, turn);
@@ -271,8 +275,11 @@ public class MainActivity extends AppCompatActivity
     public void trackLocation(){
         gpsTracker = new GpsTracker(MainActivity.this);
 
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
+//        double latitude = gpsTracker.getLatitude();
+//        double longitude = gpsTracker.getLongitude();
+
+        double latitude = 3;
+        double longitude = 3;
 
         Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_SHORT).show();
 

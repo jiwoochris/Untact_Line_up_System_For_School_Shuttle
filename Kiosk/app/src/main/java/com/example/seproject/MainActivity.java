@@ -1,10 +1,14 @@
 package com.example.seproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,8 +22,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -33,6 +45,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Context context;
 
     private GoogleMap mMap;
+    Thread tracking_thread;
+
+    FirebaseDatabase database;
+    DatabaseReference bus;
+
+    int A = 0;
+    int B = 0;
+    int C = 0;
+
+    MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +63,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
 
+        database = FirebaseDatabase.getInstance();
+        bus = database.getReference("bus");
+
+
+        TrackHandler myHandler = new TrackHandler();
+        tracking_thread = new Thread(new Runnable(){
+            public void run(){
+
+                try{
+                    while(true) {
+                        Thread.sleep(3000);
+                        Message msg = myHandler.obtainMessage();
+                        myHandler.sendMessage(msg);
+                    }
+                }
+                catch(Exception ex){
+                    Log.e("MainActivity", "Exception in processing message.", ex);
+                }
+
+            }
+        });
+
+        tracking_thread.start();
 
         context = getApplicationContext();
         button = findViewById(R.id.inputButton);
@@ -75,7 +122,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+
+        database.getReference("bus").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+    
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
 
@@ -97,17 +160,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-
-        MarkerOptions markerOptions = new MarkerOptions();         // 마커 생성
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");                         // 마커 제목
-        markerOptions.snippet("한국의 수도");         // 마커 설명
-        mMap.addMarker(markerOptions);
+        LatLng SEOUL = new LatLng(37.4220005, -122.0839996);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));                 // 초기 위치
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));                         // 줌의 정도
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);                           // 지도 유형 설정
 
     }
+
+    public class TrackHandler extends Handler {
+        public void handleMessage(Message msg){
+            trackLocation();
+        }
+    }
+
+    public void trackLocation(){
+        String[] abc = new String[]{"A", "B", "C"};
+
+        database.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError){
+
+            }
+        });
+
+
+//
+//        marker[i].position(new LatLng(l1, l2));
+//
+//        marker[i].title("seoul");                         // 마커 제목
+//        marker[i].snippet("한국의 수도");         // 마커 설명
+//        mMap.addMarker(marker[i]);
+    }
+
+    public void alertBusy(int num){
+        updateDb(database.getReference("busy"), num);
+    }
+
+    public void updateDb(DatabaseReference dr, Object value){
+        dr.setValue(value);
+    }
+
 }
