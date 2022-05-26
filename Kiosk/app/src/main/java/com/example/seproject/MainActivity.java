@@ -25,8 +25,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     FirebaseDatabase database;
     DatabaseReference bus;
-    boolean state;
-    double l1;
-    double l2;
+
+    int A = 0;
+    int B = 0;
+    int C = 0;
 
     MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
 
@@ -64,9 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         database = FirebaseDatabase.getInstance();
-
-
-
+        bus = database.getReference("bus");
 
 
         TrackHandler myHandler = new TrackHandler();
@@ -121,7 +122,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+
+        database.getReference("bus").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+    
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
 
@@ -160,61 +177,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void trackLocation(){
         String[] abc = new String[]{"A", "B", "C"};
 
-        for(int i=0; i<2; i++){
-            bus = database.getReference(abc[i]);
-
-            bus.child("state").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    }
-                    else {
-                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                        if(Objects.equals(String.valueOf(task.getResult().getValue()), "true"))
-                            state = true;
-                        else
-                            state = false;
-                    }
+        database.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
                 }
-            });
-
-            if(state){
-                bus.child("l1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("firebasel1", "Error getting data", task.getException());
-                        }
-                        else {
-                            Log.d("firebasel1", String.valueOf(task.getResult().getValue()));
-                            l1 = (double) task.getResult().getValue();
-                        }
-                    }
-                });
-
-                bus.child("l2").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("firebasel2", "Error getting data", task.getException());
-                        }
-                        else {
-                            Log.d("firebasel2", String.valueOf(task.getResult().getValue()));
-                            l2 = (double) task.getResult().getValue();
-                        }
-                    }
-                });
             }
 
-            marker[i].position(new LatLng(l1, l2));
+            @Override
+            public void onCancelled(DatabaseError databaseError){
 
-            marker[i].title("seoul");                         // 마커 제목
-            marker[i].snippet("한국의 수도");         // 마커 설명
-            mMap.addMarker(marker[i]);
-        }
+            }
+        });
 
 
+//
+//        marker[i].position(new LatLng(l1, l2));
+//
+//        marker[i].title("seoul");                         // 마커 제목
+//        marker[i].snippet("한국의 수도");         // 마커 설명
+//        mMap.addMarker(marker[i]);
+    }
+
+    public void alertBusy(int num){
+        updateDb(database.getReference("busy"), num);
+    }
+
+    public void updateDb(DatabaseReference dr, Object value){
+        dr.setValue(value);
     }
 
 }
