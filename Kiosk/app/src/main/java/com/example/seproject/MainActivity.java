@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         database = FirebaseDatabase.getInstance();
         bus = database.getReference("bus");
 
+        alertBusy(2);
+
 
         TrackHandler myHandler = new TrackHandler();
         tracking_thread = new Thread(new Runnable(){
@@ -201,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void alertBusy(int num){
-        updateDb(database.getReference("busy"), num);
+        updateDb(bus.child("busy"), num);
     }
 
     public void updateDb(DatabaseReference dr, Object value){
