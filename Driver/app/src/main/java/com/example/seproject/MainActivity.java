@@ -122,6 +122,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        turn = false;
+    }
 
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
@@ -277,11 +282,8 @@ public class MainActivity extends AppCompatActivity
     public void trackLocation(){
         gpsTracker = new GpsTracker(MainActivity.this);
 
-//        double latitude = gpsTracker.getLatitude();
-//        double longitude = gpsTracker.getLongitude();
-
-        double latitude = 3;
-        double longitude = 3;
+        double latitude = gpsTracker.getLatitude();
+        double longitude = gpsTracker.getLongitude();
 
         Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_SHORT).show();
 
