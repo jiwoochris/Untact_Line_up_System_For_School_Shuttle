@@ -21,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     int C = 0;
 
     MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
+
+
+    double l1 = 37.4220005, l2 = 122.0839996;
 
 
     @Override
@@ -162,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng SEOUL = new LatLng(37.4220005, -122.0839996);
+        LatLng SEOUL = new LatLng(37.4220005, 122.0839996);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));                 // 초기 위치
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));                         // 줌의 정도
@@ -173,6 +177,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public class TrackHandler extends Handler {
         public void handleMessage(Message msg){
             trackLocation();
+
+
+            l1 += 0.0010115;
+            l2 += 0.0010115;
+
+            Log.d("MainActivity", String.valueOf(l1) + String.valueOf(l2));
+
+
+            marker[0].position(new LatLng(l1, l2));
+
+            mMap.clear();
+
+            mMap.addMarker(marker[0]);
+
         }
     }
 
@@ -183,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
+//                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
                 }
             }
 
