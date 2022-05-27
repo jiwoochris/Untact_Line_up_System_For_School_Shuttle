@@ -63,7 +63,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     Bus[] ABC = new Bus[]{new Bus(), new Bus(), new Bus()};
 
-    int current,busy;
+    int[] numOfReservation = new int[]{0, 0, 0};
+    int[] MAXNUM = {17, 17, 21};
+
+    int current, busy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +129,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-        database.getReference("bus").addValueEventListener(new ValueEventListener() {
+        database.getInstance().getReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
-                    serverMessage = (String) snapshot.getValue();
+                    serverMessage = snapshot.getValue().toString();
                 }
             }
 
@@ -173,42 +176,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng SEOUL = new LatLng(37.4220005, 122.0839996);
+        LatLng CENTER = new LatLng(37.453444, 127.131636);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));                 // 초기 위치
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));                         // 줌의 정도
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);                           // 지도 유형 설정
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(CENTER));                 // 초기 위치
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14.8f));                 // 줌의 정도
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);                           // 지도 유형 설정
 
     }
 
     public class TrackHandler extends Handler {
         public void handleMessage(Message msg){
-            jsonParsing(serverMessage);
 
-            l1 += 0.0010115;
-            l2 += 0.0010115;
+            jsonParsing();
 
-            Log.d("MainActivity", String.valueOf(l1) + String.valueOf(l2));
-
-
-            marker[0].position(new LatLng(l1, l2));
-
-            mMap.clear();
-
-            mMap.addMarker(marker[0]);
+            trackLocation();
 
         }
     }
 
     public void trackLocation(){
+        for(int i=0; i<3; i++)
+            marker[i].position(new LatLng(ABC[i].l1, ABC[i].l2));
 
+        mMap.clear();
 
-//
-//        marker[i].position(new LatLng(l1, l2));
-//
-//        marker[i].title("seoul");                         // 마커 제목
-//        marker[i].snippet("한국의 수도");         // 마커 설명
-//        mMap.addMarker(marker[i]);
+        for(int i=0; i<3; i++)
+            if(ABC[i].state == true)
+                mMap.addMarker(marker[i]);
     }
 
     public void alertBusy(int num){
@@ -219,12 +213,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         dr.setValue(value);
     }
 
-    protected void jsonParsing(String message) {
+    protected void jsonParsing() {
 
         // String example = "{\"A\":{\"l1\":\"3\", \"l2\":\"1\", \"state\":\"true\"}, \"B\":{\"l1\":\"1\", \"l2\":\"1\", \"state\":\"false\"}, \"current\":1, \"C\":{\"l1\":\"3\", \"l2\":\"3\", \"state\":\"false\"}, \"busy\":\"2\"}";
 
         try {
-            JSONObject parse_item = new JSONObject(message);
+            JSONObject parse_item = new JSONObject(serverMessage);
 
             JSONObject obj = (JSONObject) parse_item.get("A");
             ABC[0].l1 = obj.getDouble("l1");
