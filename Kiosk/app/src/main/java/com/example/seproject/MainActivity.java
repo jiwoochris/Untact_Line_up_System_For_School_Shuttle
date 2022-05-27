@@ -1,212 +1,92 @@
 package com.example.seproject;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+public class MainActivity extends AppCompatActivity {
 
-import java.util.ArrayList;
-import java.util.Objects;
+    Bus[] busList = new Bus[3];
+    String current,busy;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+    public class Bus {
+        private String l1;
+        private String l2;
+        private String state;
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;
-    EditText atextView;
-    EditText btextView;
-    EditText S_ID,S_ID2;
-    String ID_total;
-    Button button;
-    String val;
-    int num;
-    private Context context;
+        public String getL1() {
+            return l1;
+        }
+        public String getL2() {
+            return l2;
+        }
+        public String getState(){
+            return state;
+        }
+        public void setL1(String l1) {
+            this.l1 = l1;
+        }
+        public void setL2(String l2) {
+            this.l2 = l2;
+        }
+        public void setState(String state) {
+            this.state = state;
+        }
+        public Bus(String l1,String l2, String state){
+            this.l1 = l1;
+            this.l2 = l2;
+            this.state = state;
+        }
+    }
 
-    private GoogleMap mMap;
-    Thread tracking_thread;
-
-    FirebaseDatabase database;
-    DatabaseReference bus;
-
-    int A = 0;
-    int B = 0;
-    int C = 0;
-
-    MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        TextView textView = findViewById(R.id.text1);
+        jsonParsing();
+        textView.setText("BUS A = l1:"+busList[0].getL1()+",l2:"+busList[0].getL2()+", state:"+busList[0].getState()
+                +"\n"+"BUS B = l1:"+busList[1].getL1()+",l2:"+busList[1].getL2()+", state:"+busList[1].getState()
+                +"\n"+"BUS C = l1:"+busList[2].getL1()+",l2:"+busList[2].getL2()+", state:"+busList[2].getState()
+                +"\n"+"Current:"+current+"\n"+"Busy:"+busy);
 
-        mapFragment.getMapAsync(this);
-
-        database = FirebaseDatabase.getInstance();
-        bus = database.getReference("bus");
-
-
-        TrackHandler myHandler = new TrackHandler();
-        tracking_thread = new Thread(new Runnable(){
-            public void run(){
-
-                try{
-                    while(true) {
-                        Thread.sleep(3000);
-                        Message msg = myHandler.obtainMessage();
-                        myHandler.sendMessage(msg);
-                    }
-                }
-                catch(Exception ex){
-                    Log.e("MainActivity", "Exception in processing message.", ex);
-                }
-
-            }
-        });
-
-        tracking_thread.start();
-
-        context = getApplicationContext();
-        button = findViewById(R.id.inputButton);
-        atextView = findViewById(R.id.aId);
-        btextView = findViewById(R.id.bId);
-
-        S_ID = findViewById(R.id.edit1);
-        S_ID2 = findViewById(R.id.edit2);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                num++;
-                Intent intent = new Intent(context,InputActivity.class);
-                Bundle bundle = new Bundle();
-                if(num<=5){
-                     val = atextView.getText().toString();
-                     ID_total = S_ID.getText().toString();
-
-                }else{
-                    val = btextView.getText().toString();
-                    ID_total = "";
-                    ID_total = S_ID2.getText().toString();
-                }
-                bundle.putString("total", ID_total);
-                bundle.putString("countNum",val);
-                intent.putExtras(bundle);
-
-                startActivityForResult(intent,101);
-
-            }
-        });
-
-
-        database.getReference("bus").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
     }
-    
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
+    protected void jsonParsing() {
 
-        Bundle bundle = data.getExtras();
-        int count = bundle.getInt("number");
-        String value = Integer.toString(count);
-        String ID = bundle.getString("student_id");
-        if(num <= 5){
-            S_ID.setText(ID);
-            atextView.setText(value);
+        String example = "{\"A\":{\"l1\":\"3\", \"l2\":\"1\", \"state\":\"true\"}, \"B\":{\"l1\":\"1\", \"l2\":\"1\", \"state\":\"false\"}, \"current\":1, \"C\":{\"l1\":\"3\", \"l2\":\"3\", \"state\":\"false\"}, \"busy\":\"2\"}";
+
+        try {
+            JSONObject parse_item = new JSONObject(example);
+
+            JSONObject obj = (JSONObject) parse_item.get("A");
+            String Al1 = obj.getString("l1");
+            String Al2 = obj.getString("l2");
+            String Astate = obj.getString("state");
+            busList[0]= new Bus(Al1,Al2,Astate);
+
+            JSONObject obj2 = (JSONObject) parse_item.get("B");
+            String Bl1 = obj2.getString("l1");
+            String Bl2 = obj2.getString("l2");
+            String Bstate = obj2.getString("state");
+            busList[1] = new Bus(Bl1,Bl2,Bstate);
+
+            JSONObject obj3 = (JSONObject) parse_item.get("C");
+            String Cl1 = obj3.getString("l1");
+            String Cl2 = obj3.getString("l2");
+            String Cstate = obj3.getString("state");
+            busList[2] = new Bus(Cl1,Cl2,Cstate);
+
+            current = parse_item.getString("current");
+            busy = parse_item.getString("busy");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-       else {
-            S_ID2.setText(ID);
-            btextView.setText(value);
-        }
-    }
 
-    @Override
-    public void onMapReady(final GoogleMap googleMap) {
-        mMap = googleMap;
-
-        LatLng SEOUL = new LatLng(37.4220005, -122.0839996);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));                 // 초기 위치
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));                         // 줌의 정도
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);                           // 지도 유형 설정
-
-    }
-
-    public class TrackHandler extends Handler {
-        public void handleMessage(Message msg){
-            trackLocation();
-        }
-    }
-
-    public void trackLocation(){
-        String[] abc = new String[]{"A", "B", "C"};
-
-        database.getInstance().getReference().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError){
-
-            }
-        });
-
-
-//
-//        marker[i].position(new LatLng(l1, l2));
-//
-//        marker[i].title("seoul");                         // 마커 제목
-//        marker[i].snippet("한국의 수도");         // 마커 설명
-//        mMap.addMarker(marker[i]);
-    }
-
-    public void alertBusy(int num){
-        updateDb(database.getReference("busy"), num);
-    }
-
-    public void updateDb(DatabaseReference dr, Object value){
-        dr.setValue(value);
     }
 
 }
