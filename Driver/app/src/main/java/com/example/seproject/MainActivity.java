@@ -297,4 +297,8 @@ public class MainActivity extends AppCompatActivity
         dr.setValue(value);
     }
 
+    public void someFunction(){
+        // 어떤 함수를 새로 썼다고 가정해 봅시다 !
+    }
+
 }
