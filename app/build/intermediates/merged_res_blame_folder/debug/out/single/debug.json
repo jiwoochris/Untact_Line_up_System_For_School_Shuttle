@@ -1,0 +1,102 @@
+[
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-mdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.mudangereservation.app-merged_res-25:/layout_activity_main.xml.flat",
+        "source": "com.example.mudangereservation.app-main-27:/layout/activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-anydpi-v26\\ic_launcher.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_talkb.png.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\talkb.png"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_mudange.png.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\mudange.png"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_verticallineb.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\verticallineb.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-xhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_logoimg.png.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\logoimg.png"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-anydpi-v24_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-pngs-20:\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-xxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-hdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_verticallinec.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\verticallinec.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_layoutcolor.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\layoutcolor.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\drawable-v24_verticallinea.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\drawable-v24\\verticallinea.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\xml\\backup_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-merged_res-25:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\rkdms\\.gradle\\daemon\\7.3.3\\com.example.mudangereservation.app-main-27:\\xml\\data_extraction_rules.xml"
+    }
+]
