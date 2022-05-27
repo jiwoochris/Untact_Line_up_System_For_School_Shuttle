@@ -31,6 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -43,30 +46,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Button button;
     String val;
     int num;
-    private Context context;
 
     private GoogleMap mMap;
+    SupportMapFragment mapFragment;
+
     Thread tracking_thread;
 
     FirebaseDatabase database;
     DatabaseReference bus;
 
-    int A = 0;
-    int B = 0;
-    int C = 0;
+    String serverMessage;
 
     MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
 
-
     double l1 = 37.4220005, l2 = 122.0839996;
 
+    Bus[] ABC = new Bus[]{new Bus(), new Bus(), new Bus()};
+
+    int current,busy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        bindingView();
 
         mapFragment.getMapAsync(this);
 
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 try{
                     while(true) {
-                        Thread.sleep(3000);
+                        Thread.sleep(1000);
                         Message msg = myHandler.obtainMessage();
                         myHandler.sendMessage(msg);
                     }
@@ -96,19 +99,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         tracking_thread.start();
 
-        context = getApplicationContext();
-        button = findViewById(R.id.inputButton);
-        atextView = findViewById(R.id.aId);
-        btextView = findViewById(R.id.bId);
 
-        S_ID = findViewById(R.id.edit1);
-        S_ID2 = findViewById(R.id.edit2);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 num++;
-                Intent intent = new Intent(context,InputActivity.class);
+                Intent intent = new Intent(getApplicationContext(),InputActivity.class);
                 Bundle bundle = new Bundle();
                 if(num<=5){
                      val = atextView.getText().toString();
@@ -134,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
+                    serverMessage = (String) snapshot.getValue();
                 }
             }
 
@@ -143,6 +141,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+    }
+
+    private void bindingView(){
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        button = findViewById(R.id.inputButton);
+        atextView = findViewById(R.id.aId);
+        btextView = findViewById(R.id.bId);
+        S_ID = findViewById(R.id.edit1);
+        S_ID2 = findViewById(R.id.edit2);
     }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -176,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public class TrackHandler extends Handler {
         public void handleMessage(Message msg){
-            trackLocation();
-
+            jsonParsing(serverMessage);
 
             l1 += 0.0010115;
             l2 += 0.0010115;
@@ -195,21 +201,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void trackLocation(){
-        String[] abc = new String[]{"A", "B", "C"};
-
-        database.getInstance().getReference().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    Log.d("MainActivity", "ValueEventListener : " + snapshot.getValue());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError){
-
-            }
-        });
 
 
 //
@@ -228,5 +219,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         dr.setValue(value);
     }
 
+    protected void jsonParsing(String message) {
+
+        // String example = "{\"A\":{\"l1\":\"3\", \"l2\":\"1\", \"state\":\"true\"}, \"B\":{\"l1\":\"1\", \"l2\":\"1\", \"state\":\"false\"}, \"current\":1, \"C\":{\"l1\":\"3\", \"l2\":\"3\", \"state\":\"false\"}, \"busy\":\"2\"}";
+
+        try {
+            JSONObject parse_item = new JSONObject(message);
+
+            JSONObject obj = (JSONObject) parse_item.get("A");
+            ABC[0].l1 = obj.getDouble("l1");
+            ABC[0].l2 = obj.getDouble("l2");
+            ABC[0].state = obj.getBoolean("state");
+
+            JSONObject obj2 = (JSONObject) parse_item.get("B");
+            ABC[1].l1 = obj2.getDouble("l1");
+            ABC[1].l2 = obj2.getDouble("l2");
+            ABC[1].state = obj2.getBoolean("state");
+
+            JSONObject obj3 = (JSONObject) parse_item.get("C");
+            ABC[2].l1 = obj3.getDouble("l1");
+            ABC[2].l2 = obj3.getDouble("l2");
+            ABC[2].state = obj3.getBoolean("state");
+
+            current = parse_item.getInt("current");
+            busy = parse_item.getInt("busy");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
