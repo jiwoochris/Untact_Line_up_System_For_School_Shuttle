@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".MainActivity">
+
+    //첫번째
+
+    <LinearLayout
+        android:id="@+id/topMenu"
+        android:layout_width="match_parent"
+        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
+        android:weightSum="6"
+        android:paddingBottom="-10dp"
+        android:orientation="horizontal">
+
+        //카운트 화면
+
+        <RelativeLayout
+            android:id="@+id/countView"
+            android:layout_width="331dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:background="#EFF8FB"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp">
+
+
+            <ImageView
+                android:id="@+id/logoimg"
+                android:layout_width="400dp"
+                android:layout_height="100dp"
+
+                android:src="@drawable/logoimg"/>
+
+            <TextView
+                android:id="@+id/A"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="80dp"
+                android:textStyle="bold"
+                android:text="A : "
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/alimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_toRightOf="@id/aId"
+                android:text="/ 25 "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30dp" />
+
+            <EditText
+                android:id="@+id/aId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="70dp"
+                android:text="0"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/A"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:text="B : "
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/blimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/alimit"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/bId"
+                android:text="/ 30 "
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <EditText
+                android:id="@+id/bId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/aId"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="-2dp"
+                android:text="0"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/B"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:text="C : "
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/climit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/blimit"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@id/cId"
+                android:text="/ 30 "
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+
+            <EditText
+                android:id="@+id/cId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bId"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="0dp"
+                android:text="0"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+        </RelativeLayout>
+
+
+        //지도화면
+        <RelativeLayout
+            android:id="@+id/mapView"
+            android:layout_weight="5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#EFF8FB">
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    //두번째 예약현황 화면
+    <LinearLayout
+        android:id="@+id/reservationList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_weight="7"
+        android:background="@drawable/layoutcolor"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/black"
+            android:text="예약현황"
+            android:textStyle="bold"
+            android:textSize="40dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/verticallinea"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/studentA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="A"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+
+
+                    android:textColor="@color/black"
+                    android:textSize="35dp" />
+
+                <EditText
+                    android:id="@+id/edit1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/studentA"
+                    android:layout_gravity="center"
+                    android:enabled="false"
+                    android:hint="학번"
+                    android:textStyle="bold"
+                    android:textColorHint="@color/black"
+                    android:textSize="28dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:background="@drawable/verticallineb"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/studentB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="B"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="35dp" />
+
+                <EditText
+                    android:id="@+id/edit2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/studentB"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:hint="학번"
+                    android:textStyle="bold"
+                    android:textColorHint="@color/black"
+                    android:textSize="28dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/verticallinec"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/studentC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="C"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="35dp" />
+
+                <EditText
+                    android:id="@+id/edit3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/studentC"
+                    android:layout_gravity="center"
+                    android:enabled="false"
+                    android:hint="학번"
+                    android:textStyle="bold"
+                    android:textColorHint="@color/black"
+                    android:textSize="28dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    //세번째째   입력 화면
+    <RelativeLayout
+        android:id="@+id/buttonLayout"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reservationList"
+        android:background="#EFF8FB">
+
+
+        <ImageView
+            android:id="@+id/muDangE"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/inputText"
+            android:src="@drawable/mudange" />
+
+        <ImageView
+            android:id="@+id/talkb"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="-18dp"
+            android:src="@drawable/talkb" />
+
+        <EditText
+            android:id="@+id/inputText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:hint="번호를 입력하세요"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="30dp" />
+
+        <Button
+            android:id="@+id/inputButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/inputText"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:hint="예약하기" />
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</LinearLayout>
