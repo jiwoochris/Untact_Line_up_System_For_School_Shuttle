@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity
         turn = false;
         updateDb(state, turn);
 
+        reset(1);
+
         TrackHandler myHandler = new TrackHandler();
 
         if (!checkLocationServicesStatus()) {
@@ -291,6 +293,10 @@ public class MainActivity extends AppCompatActivity
         public void handleMessage(Message msg){
             trackLocation();
         }
+    }
+
+    public void reset(int which){
+        updateDb(bus.child("current"), which);
     }
 
     public void updateDb(DatabaseReference dr, Object value){
