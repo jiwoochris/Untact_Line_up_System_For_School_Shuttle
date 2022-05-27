@@ -5,7 +5,7 @@ import org.json.JSONObject;
 public class Parser {
 
     Bus[] busList = new Bus[3];
-    String current,busy;
+    int current,busy;
 
     public class Bus {
         private String l1;
@@ -37,12 +37,12 @@ public class Parser {
         }
     }
 
-    protected void jsonParsing() {
+    protected void jsonParsing(String message) {
 
-        String example = "{\"A\":{\"l1\":\"3\", \"l2\":\"1\", \"state\":\"true\"}, \"B\":{\"l1\":\"1\", \"l2\":\"1\", \"state\":\"false\"}, \"current\":1, \"C\":{\"l1\":\"3\", \"l2\":\"3\", \"state\":\"false\"}, \"busy\":\"2\"}";
+       // String example = "{\"A\":{\"l1\":\"3\", \"l2\":\"1\", \"state\":\"true\"}, \"B\":{\"l1\":\"1\", \"l2\":\"1\", \"state\":\"false\"}, \"current\":1, \"C\":{\"l1\":\"3\", \"l2\":\"3\", \"state\":\"false\"}, \"busy\":\"2\"}";
 
         try {
-            JSONObject parse_item = new JSONObject(example);
+            JSONObject parse_item = new JSONObject(message);
 
             JSONObject obj = (JSONObject) parse_item.get("A");
             String Al1 = obj.getString("l1");
@@ -62,8 +62,8 @@ public class Parser {
             String Cstate = obj3.getString("state");
             busList[2] = new Bus(Cl1,Cl2,Cstate);
 
-            current = parse_item.getString("current");
-            busy = parse_item.getString("busy");
+            current = parse_item.getInt("current");
+            busy = parse_item.getInt("busy");
 
         } catch (JSONException e) {
             e.printStackTrace();
