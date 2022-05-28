@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
@@ -23,8 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +40,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
 {
+    String bus_str = "C";
+    int bus_num = 2;
+
     private GpsTracker gpsTracker;
     boolean turn;
     Thread tracking_thread;
@@ -44,10 +54,16 @@ public class MainActivity extends AppCompatActivity
     DatabaseReference l2;
     DatabaseReference state;
 
+    Button OnOffButton;
+    Button resetButton;
+
+    int busy = 0;
+
+    String serverMessage;
+
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,10 +71,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bindingView();
+
         database = FirebaseDatabase.getInstance();
         bus = database.getReference("bus");
 
-        A = bus.child("C");
+        A = bus.child(bus_str);
 
         l1 = A.child("l1");
         l2 = A.child("l2");
@@ -66,8 +84,6 @@ public class MainActivity extends AppCompatActivity
 
         turn = false;
         updateDb(state, turn);
-
-        reset(1);
 
         TrackHandler myHandler = new TrackHandler();
 
@@ -77,7 +93,7 @@ public class MainActivity extends AppCompatActivity
             checkRunTimePermission();
         }
 
-        Button OnOffButton = (Button) findViewById(R.id.button);
+
         OnOffButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -85,6 +101,9 @@ public class MainActivity extends AppCompatActivity
             {
                 if(turn){
                     turn = false;
+                    OnOffButton.setBackgroundColor(Color.parseColor("#7E7E7E"));
+                    OnOffButton.setText("운행");
+
                     updateDb(state, turn);
 
                     if (tracking_thread != null && tracking_thread.isAlive()) {
@@ -95,6 +114,9 @@ public class MainActivity extends AppCompatActivity
 
                 else{
                     turn = true;
+                    OnOffButton.setBackgroundColor(Color.RED);
+                    OnOffButton.setText("중지");
+
                     updateDb(state, turn);
 
                     tracking_thread = new Thread(new Runnable(){
@@ -103,9 +125,13 @@ public class MainActivity extends AppCompatActivity
                             try{
                                 while(true) {
                                     if(turn){
-                                        Thread.sleep(5000);
+                                        try {
+                                            Thread.sleep(5000);
+                                        } catch (InterruptedException ex) {
+                                        }
                                         Message msg = myHandler.obtainMessage();
                                         myHandler.sendMessage(msg);
+
                                     }
                                 }
                             }
@@ -120,6 +146,47 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset(bus_num);
+            }
+        });
+
+        FirebaseDatabase.getInstance().getReference().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.d("MainActivity", "ChildEventListener - onChildAdded : " + dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Log.d("MainActivity", "ChildEventListener - onChildChanged : " + s);
+                serverMessage = s;
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("MainActivity", "ChildEventListener - onChildRemoved : " + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                Log.d("MainActivity", "ChildEventListener - onChildMoved" + s);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("MainActivity", "ChildEventListener - onCancelled" + databaseError.getMessage());
+            }
+        });
+
+    }
+
+    void bindingView(){
+        OnOffButton = (Button) findViewById(R.id.drivebutton);
+        resetButton = (Button) findViewById(R.id.resetbutton);
     }
 
     @Override
@@ -303,6 +370,20 @@ public class MainActivity extends AppCompatActivity
 
     public void updateDb(DatabaseReference dr, Object value){
         dr.setValue(value);
+    }
+
+    protected void jsonParsing() {
+
+        // String example = "{\"A\":{\"l1\":\"3\", \"l2\":\"1\", \"state\":\"true\"}, \"B\":{\"l1\":\"1\", \"l2\":\"1\", \"state\":\"false\"}, \"current\":1, \"C\":{\"l1\":\"3\", \"l2\":\"3\", \"state\":\"false\"}, \"busy\":\"2\"}";
+
+        try {
+            JSONObject parse_item = new JSONObject(serverMessage);
+
+            busy = parse_item.getInt("busy");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

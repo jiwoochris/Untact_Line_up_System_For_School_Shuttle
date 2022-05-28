@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#EFF8FB"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/A"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="100dp"
+        android:text="Full Bus: "
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:textStyle="bold" />
 
-        />
+    <!--<TextView
+        android:id="@+id/Astatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_toRightOf="@+id/A"
+        android:textStyle="bold"
+        android:text="Plenty of seats"
+        android:textColor="#0000FF"
+        android:textSize="40dp" />-->
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/Astatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_toRightOf="@+id/A"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/drivebutton"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:text="운행"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/resetbutton"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="출발"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/drivebutton"
+        android:layout_marginTop="50dp"/>
+
+
+</RelativeLayout>

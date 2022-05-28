@@ -103,32 +103,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         tracking_thread.start();
 
 
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                num++;
-                Intent intent = new Intent(getApplicationContext(),InputActivity.class);
-                Bundle bundle = new Bundle();
-                if(num<=5){
-                     val = atextView.getText().toString();
-                     ID_total = S_ID.getText().toString();
-
-                }else{
-                    val = btextView.getText().toString();
-                    ID_total = "";
-                    ID_total = S_ID2.getText().toString();
-                }
-                bundle.putString("total", ID_total);
-                bundle.putString("countNum",val);
-                intent.putExtras(bundle);
-
-                startActivityForResult(intent,101);
-
-            }
-        });
-
-
         database.getInstance().getReference().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -189,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             jsonParsing();
 
-            trackLocation();
+//            trackLocation();
 
         }
     }
