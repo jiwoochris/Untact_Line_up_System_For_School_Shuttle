@@ -39,13 +39,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    EditText atextView;
-    EditText btextView;
-    EditText S_ID,S_ID2;
-    String ID_total;
     Button button;
-    String val;
-    int num;
+    EditText inputText;
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     int[] numOfReservation = new int[]{0, 0, 0};
     int[] MAXNUM = {17, 17, 21};
 
-    int current, busy;
+    int current, busy, currentReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         database = FirebaseDatabase.getInstance();
         bus = database.getReference("bus");
 
-        alertBusy(2);
-
+        alertBusy(0);
 
         TrackHandler myHandler = new TrackHandler();
         tracking_thread = new Thread(new Runnable(){
@@ -118,32 +112,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkEnough())
+                    numOfReservation[current]++;
+                else{
+                    if(busy == 3){
+                        // 예약 전부 마감 알림
+                    }
+                    else{
+                        busy++;
+                        alertBusy(busy);
+                        current = (current + 1) % 3;
+                        numOfReservation[current]++;
+                    }
+                }
+            }
+        });
+
     }
 
     private void bindingView(){
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         button = findViewById(R.id.inputButton);
-        atextView = findViewById(R.id.aId);
-        btextView = findViewById(R.id.bId);
-        S_ID = findViewById(R.id.edit1);
-        S_ID2 = findViewById(R.id.edit2);
-    }
-    
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-
-        Bundle bundle = data.getExtras();
-        int count = bundle.getInt("number");
-        String value = Integer.toString(count);
-        String ID = bundle.getString("student_id");
-        if(num <= 5){
-            S_ID.setText(ID);
-            atextView.setText(value);
-        }
-       else {
-            S_ID2.setText(ID);
-            btextView.setText(value);
-        }
+        inputText = findViewById(R.id.inputText);
     }
 
     @Override
@@ -163,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             jsonParsing();
 
-//            trackLocation();
+            trackLocation();
 
         }
     }
@@ -185,6 +178,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void updateDb(DatabaseReference dr, Object value){
         dr.setValue(value);
+    }
+
+    private boolean checkEnough(){
+        if(numOfReservation[current] < MAXNUM[current])
+            return true;
+        else
+            return false;
+    }
+
+    private void resetList(){
+        // currentReset 정원 0으로 초기화해주는 함수
     }
 
     protected void jsonParsing() {
@@ -209,7 +213,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ABC[2].l2 = obj3.getDouble("l2");
             ABC[2].state = obj3.getBoolean("state");
 
-            current = parse_item.getInt("current");
+            if(currentReset != parse_item.getInt("current")){
+                resetList();
+                currentReset = parse_item.getInt("current");
+            }
+
             busy = parse_item.getInt("busy");
 
         } catch (JSONException e) {
