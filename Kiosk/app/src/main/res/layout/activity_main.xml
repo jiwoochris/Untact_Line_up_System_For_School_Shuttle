@@ -61,12 +61,12 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/aId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="48dp"
                 android:layout_toRightOf="@id/A"
                 android:text="0"
                 android:textColor="@color/black"
@@ -97,14 +97,14 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/bId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/aId"
-                android:layout_toRightOf="@+id/B"
                 android:layout_marginLeft="0dp"
-                android:layout_marginTop="-12dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/B"
                 android:text="0"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -134,14 +134,14 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/cId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bId"
-                android:layout_toRightOf="@id/C"
                 android:layout_marginLeft="0dp"
-                android:layout_marginTop="-10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/C"
                 android:text="0"
                 android:textColor="@color/black"
                 android:textSize="20dp"
