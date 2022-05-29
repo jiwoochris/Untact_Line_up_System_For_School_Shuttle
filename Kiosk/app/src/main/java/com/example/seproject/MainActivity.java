@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -211,7 +212,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void trackLocation(){
         for(int i=0; i<3; i++)
-            marker[i].position(new LatLng(ABC[i].l1, ABC[i].l2));
+            marker[i].position(new LatLng(ABC[i].l1, ABC[i].l2))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
 
         mMap.clear();
 
