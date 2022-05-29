@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView[] edit = new TextView[3];
 
     private GoogleMap mMap;
+    private UiSettings mUiSettings;
     SupportMapFragment mapFragment;
 
     Thread tracking_thread;
@@ -164,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             current = (current + 1) % 3;
                             numOfReservation[current]++;
                             setCount(current);
+
+                            viewList();
                         }
                     }
                 }
@@ -190,6 +194,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+
+        mUiSettings = mMap.getUiSettings();
+        mUiSettings.setTiltGesturesEnabled(false);
+        mUiSettings.setRotateGesturesEnabled(false);
+        mUiSettings.setScrollGesturesEnabled(false);
+        mUiSettings.setZoomGesturesEnabled(false);
 
         LatLng CENTER = new LatLng(37.453444, 127.131636);
 
