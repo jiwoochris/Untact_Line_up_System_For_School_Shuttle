@@ -115,9 +115,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkEnough())
+                if(checkEnough()) {
                     numOfReservation[current]++;
-                else{
+                    setCount(current);
+                }
+                    else{
                     if(busy == 3){
                         // 예약 전부 마감 알림
                     }
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         alertBusy(busy);
                         current = (current + 1) % 3;
                         numOfReservation[current]++;
+                        setCount(current);
                     }
                 }
             }
@@ -222,6 +225,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setCount(int current){
+
+        TextView textView0 = findViewById(R.id.aId);
+        TextView textView1 = findViewById(R.id.bId);
+        TextView textView2 = findViewById(R.id.cId);
+
+        if(current==0){
+            textView0.setText(numOfReservation[current]);
+        }else if(current==1){
+            textView1.setText(numOfReservation[current]);
+        }else{
+            textView2.setText(numOfReservation[current]);
         }
     }
 
