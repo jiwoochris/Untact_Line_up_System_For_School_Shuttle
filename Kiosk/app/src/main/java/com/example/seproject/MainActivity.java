@@ -1,10 +1,14 @@
 package com.example.seproject;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     FirebaseDatabase database;
     DatabaseReference bus;
 
-    String serverMessage;
+    String serverMessage = "";
 
     MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
 
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     int current, busy, currentReset;
 
     public List<Student> userList ;
+    DataAdapter mDbHelper;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,24 +133,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkValidSid();
+                if(!checkValidSid())
+                    return;
 
-                if(checkEnough()) {
-                    numOfReservation[current]++;
-                    setCount(current);
+                if(getName() == "") {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("오류 메시지")
+                            .setMessage("잘못된 학번입니다.")
+                            .create()
+                            .show();
 
-                    viewList();
+                    inputText.setText("");
                 }
-                    else{
-                    if(busy == 3){
-                        // 예약 전부 마감 알림
-                    }
-                    else{
-                        busy++;
-                        alertBusy(busy);
-                        current = (current + 1) % 3;
+
+                else{
+                    if(checkEnough()) {
+
                         numOfReservation[current]++;
                         setCount(current);
+
+                        viewList();
+                    }
+                    else{
+                        if(busy == 3){
+                            // 예약 전부 마감 알림
+                        }
+                        else{
+                            busy++;
+                            alertBusy(busy);
+                            current = (current + 1) % 3;
+                            numOfReservation[current]++;
+                            setCount(current);
+                        }
                     }
                 }
             }
@@ -250,6 +270,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 
@@ -266,7 +288,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void viewList(){
         String inputSId = String.valueOf(inputText.getText());
-        sId[current] += inputSId + "\n";
+        sId[current] += inputSId.substring(0,2) + "****" + inputSId.substring(6) + " " +
+                getName().substring(0,1) + "*" + getName().substring(2) + "\n";
         edit[current].setText(sId[current]);
         inputText.setText("");
         Log.d("aaaaaaaa", sId[current]);
@@ -281,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void initLoadDB() {
 
-        DataAdapter mDbHelper = new DataAdapter(getApplicationContext());
+        mDbHelper = new DataAdapter(getApplicationContext());
         mDbHelper.createDatabase();
         mDbHelper.open();
 
@@ -292,4 +315,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDbHelper.close();
     }
 
+    private String getName() {
+        db = mDbHelper.mDbHelper.getReadableDatabase();
+        Cursor c = db.query("moodang", null, null, null, null, null, null);
+        /* query (String table, String[] columns, String selection, String[]
+         * selectionArgs, String groupBy, String having, String orderBy)
+         */
+
+        while (c.moveToNext()) {
+            int _id = c.getInt(c.getColumnIndex("student_id"));
+            String name = c.getString(c.getColumnIndex("name"));
+
+            try {
+                if (_id == Integer.parseInt(inputText.getText().toString()))
+                    return name;
+            }
+            catch(Exception e){
+                return "";
+            }
+
+        }
+
+        return "";
+    }
 }

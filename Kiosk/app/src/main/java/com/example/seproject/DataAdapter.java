@@ -19,7 +19,7 @@ public class DataAdapter
 
     private final Context mContext;
     private SQLiteDatabase mDb;
-    private DataBaseHelper mDbHelper;
+    protected DataBaseHelper mDbHelper;
 
     public DataAdapter(Context context)
     {

@@ -330,17 +330,15 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="-18dp"
             android:src="@drawable/talkb" />
 
         <EditText
             android:id="@+id/inputText"
             android:layout_width="120dp"
             android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="150dp"
             android:layout_marginTop="25dp"
-            android:hint="      번호를 입력하세요"
+            android:hint="번호를 입력하세요"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="10dp" />
