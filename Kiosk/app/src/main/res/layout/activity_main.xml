@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:layout_toRightOf="@id/aId"
-                android:text="/ 25 "
+                android:text="/ 17 "
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -92,7 +92,7 @@
                 android:layout_below="@id/alimit"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/bId"
-                android:text="/ 30 "
+                android:text="/ 17 "
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -129,7 +129,7 @@
                 android:layout_below="@id/blimit"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/cId"
-                android:text="/ 30 "
+                android:text="/ 21 "
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -226,6 +226,7 @@
                     android:layout_gravity="center"
                     android:enabled="false"
                     android:hint="학번"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="10dp"
                     android:textStyle="bold" />
@@ -259,6 +260,7 @@
                     android:layout_marginLeft="10dp"
                     android:enabled="false"
                     android:hint="학번"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="10dp"
                     android:textStyle="bold" />
@@ -291,6 +293,7 @@
                     android:enabled="false"
                     android:hint="학번"
                     android:textColorHint="@color/black"
+                    android:textColor="@color/black"
                     android:textSize="10dp"
                     android:textStyle="bold" />
 
@@ -335,8 +338,8 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="25dp"
             android:hint="      번호를 입력하세요"
             android:textColor="@color/black"
             android:textColorHint="@color/black"

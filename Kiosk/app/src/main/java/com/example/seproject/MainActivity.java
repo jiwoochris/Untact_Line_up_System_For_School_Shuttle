@@ -35,12 +35,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Button button;
     EditText inputText;
+    TextView textView0;
+    TextView textView1;
+    TextView textView2;
+    TextView[] edit = new TextView[3];
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
@@ -61,7 +66,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     int[] numOfReservation = new int[]{0, 0, 0};
     int[] MAXNUM = {17, 17, 21};
 
+    String[] sId = {"", "", ""};
+
     int current, busy, currentReset;
+
+    public List<Student> userList ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bus = database.getReference("bus");
 
         alertBusy(0);
+        current = 0;
+
+        initLoadDB();
 
         TrackHandler myHandler = new TrackHandler();
         tracking_thread = new Thread(new Runnable(){
@@ -115,9 +127,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                checkValidSid();
+
                 if(checkEnough()) {
                     numOfReservation[current]++;
                     setCount(current);
+
+                    viewList();
                 }
                     else{
                     if(busy == 3){
@@ -136,10 +152,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
+
     private void bindingView(){
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         button = findViewById(R.id.inputButton);
         inputText = findViewById(R.id.inputText);
+        textView0 = findViewById(R.id.aId);
+        textView1 = findViewById(R.id.bId);
+        textView2 = findViewById(R.id.cId);
+
+        edit[0] = findViewById(R.id.edit1);
+        edit[1] = findViewById(R.id.edit2);
+        edit[2] = findViewById(R.id.edit3);
     }
 
     @Override
@@ -230,17 +255,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void setCount(int current){
 
-        TextView textView0 = findViewById(R.id.aId);
-        TextView textView1 = findViewById(R.id.bId);
-        TextView textView2 = findViewById(R.id.cId);
-
         if(current==0){
-            textView0.setText(numOfReservation[current]);
+            textView0.setText(Integer.toString(numOfReservation[current]));
         }else if(current==1){
-            textView1.setText(numOfReservation[current]);
+            textView1.setText(Integer.toString(numOfReservation[current]));
         }else{
-            textView2.setText(numOfReservation[current]);
+            textView2.setText(Integer.toString(numOfReservation[current]));
         }
+    }
+
+    private void viewList(){
+        String inputSId = String.valueOf(inputText.getText());
+        sId[current] += inputSId + "\n";
+        edit[current].setText(sId[current]);
+        inputText.setText("");
+        Log.d("aaaaaaaa", sId[current]);
+    }
+
+    private boolean checkValidSid() {
+        if(inputText.getText().toString().equals(""))
+            return false;
+
+        return true;
+    }
+
+    private void initLoadDB() {
+
+        DataAdapter mDbHelper = new DataAdapter(getApplicationContext());
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        // db에 있는 값들을 model을 적용해서 넣는다.
+        userList = mDbHelper.getTableData();
+
+        // db 닫기
+        mDbHelper.close();
     }
 
 }
