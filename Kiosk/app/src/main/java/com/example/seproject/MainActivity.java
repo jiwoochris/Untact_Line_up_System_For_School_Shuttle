@@ -306,7 +306,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void resetList(){
-        // currentReset 정원 0으로 초기화해주는 함수
+        numOfReservation[currentReset] = 0;
+        sId[currentReset] = "";
+        edit[currentReset].setText(sId[currentReset]);
     }
 
     protected void jsonParsing() {
@@ -332,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ABC[2].state = obj3.getBoolean("state");
 
             if(currentReset != parse_item.getInt("current")){
-                resetList();
                 currentReset = parse_item.getInt("current");
+                resetList();
             }
 
             busy = parse_item.getInt("busy");
