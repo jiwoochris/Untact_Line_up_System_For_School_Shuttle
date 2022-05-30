@@ -1,14 +1,20 @@
 package com.example.seproject;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,13 +28,17 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private UiSettings mUiSettings;
     SupportMapFragment mapFragment;
+    PolylineOptions track1, track2;
 
     Thread tracking_thread;
 
@@ -64,14 +75,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     String serverMessage = "";
 
-    MarkerOptions[] marker = new MarkerOptions[]{new MarkerOptions(), new MarkerOptions(), new MarkerOptions()};
+    MarkerOptions[] marker;
+    MarkerOptions markerStop1, markerStop2;
 
     double l1 = 37.4220005, l2 = 122.0839996;
 
     Bus[] ABC = new Bus[]{new Bus(), new Bus(), new Bus()};
 
     int[] numOfReservation = new int[]{0, 0, 0};
-    int[] MAXNUM = {17, 17, 21};
+    int[] MAXNUM = {17, 22, 22};
 
     String[] sId = {"", "", ""};
 
@@ -88,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         bindingView();
 
         mapFragment.getMapAsync(this);
+        MapsInitializer.initialize(this);
 
         database = FirebaseDatabase.getInstance();
         bus = database.getReference("bus");
@@ -201,13 +214,53 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mUiSettings.setRotateGesturesEnabled(false);
         mUiSettings.setScrollGesturesEnabled(false);
         mUiSettings.setZoomGesturesEnabled(false);
+        mUiSettings.setCompassEnabled(false);
 
-        LatLng CENTER = new LatLng(37.453444, 127.131636);
+
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.icon);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 90, 70, false);
+
+        BitmapDrawable bitmapdraw1=(BitmapDrawable)getResources().getDrawable(R.drawable.stop);
+        Bitmap b1=bitmapdraw1.getBitmap();
+        Bitmap smallMarker1 = Bitmap.createScaledBitmap(b1, 60, 70, false);
+
+        marker = new MarkerOptions[]{
+                new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(smallMarker)),
+                new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(smallMarker)),
+                new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(smallMarker))};
+
+        markerStop1 = new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(smallMarker1));
+        markerStop2 = new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(smallMarker1));
+
+        LatLng CENTER = new LatLng(37.452033, 127.131109);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(CENTER));                 // 초기 위치
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14.8f));                 // 줌의 정도
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);                           // 지도 유형 설정
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14.8f));
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);                           // 지도 유형 설정
 
+        track1 = new PolylineOptions()
+                .add(
+                        new LatLng(37.450552, 127.127534),
+                        new LatLng(37.449944, 127.129903),
+                        new LatLng(37.450950, 127.130342),
+                        new LatLng(37.451208, 127.130873),
+                        new LatLng(37.452233, 127.131483),
+                        new LatLng(37.453076, 127.133614),
+                        new LatLng(37.453529, 127.134208),
+                        new LatLng(37.453893, 127.134787),
+                        new LatLng(37.454318, 127.134879)
+                );
+
+        track2 = new PolylineOptions()
+                .add(
+                        new LatLng(37.451886, 127.131202),
+                        new LatLng(37.452604, 127.130563),
+                        new LatLng(37.452472, 127.130028),
+                        new LatLng(37.452064, 127.129487),
+                        new LatLng(37.451708, 127.127530),
+                        new LatLng(37.450552, 127.127534)
+                        );
     }
 
     public class TrackHandler extends Handler {
@@ -222,10 +275,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void trackLocation(){
         for(int i=0; i<3; i++)
-            marker[i].position(new LatLng(ABC[i].l1, ABC[i].l2))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon));
+            marker[i].position(new LatLng(ABC[i].l1, ABC[i].l2));
 
         mMap.clear();
+
+        mMap.addMarker(markerStop1.position(new LatLng(37.450912, 127.126884)));
+        mMap.addMarker(markerStop2.position(new LatLng(37.454461, 127.134890)));
+
+        mMap.addPolyline(track1);
+        mMap.addPolyline(track2);
 
         for(int i=0; i<3; i++)
             if(ABC[i].state == true)
@@ -335,8 +393,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
          */
 
         while (c.moveToNext()) {
-            int _id = c.getInt(c.getColumnIndex("student_id"));
-            String name = c.getString(c.getColumnIndex("name"));
+            int _id = c.getInt(c.getColumnIndexOrThrow("student_id"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
 
             try {
                 if (_id == Integer.parseInt(inputText.getText().toString()))
@@ -349,5 +407,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         return "";
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_baseline_directions_bus_24);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }

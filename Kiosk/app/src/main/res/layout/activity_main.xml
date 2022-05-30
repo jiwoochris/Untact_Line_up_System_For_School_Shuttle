@@ -38,7 +38,6 @@
                 android:layout_height="60dp"
                 android:src="@drawable/logoimg" />
 
-
             <TextView
                 android:id="@+id/A"
                 android:layout_width="wrap_content"
@@ -92,7 +91,7 @@
                 android:layout_below="@id/alimit"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/bId"
-                android:text="/ 17 "
+                android:text="/ 22 "
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -129,7 +128,7 @@
                 android:layout_below="@id/blimit"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/cId"
-                android:text="/ 21 "
+                android:text="/ 22 "
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -164,9 +163,8 @@
                 android:layout_width="400dp"
                 android:layout_height="200dp"
                 android:layout_centerInParent="true"
-                app:cameraBearing="88"
-                tools:context=".MapsActivity"
-                />
+                app:cameraBearing="108"
+                tools:context=".MapsActivity" />
 
         </RelativeLayout>
 
