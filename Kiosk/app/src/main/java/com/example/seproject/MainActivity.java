@@ -307,6 +307,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void resetList(){
         numOfReservation[currentReset] = 0;
+        setCount(currentReset);
+
         sId[currentReset] = "";
         edit[currentReset].setText(sId[currentReset]);
     }

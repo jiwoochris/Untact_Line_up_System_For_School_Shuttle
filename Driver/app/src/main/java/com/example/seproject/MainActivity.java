@@ -40,8 +40,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
 {
-    String bus_str = "C";
-    int bus_num = 2;
+    String bus_str = "B";
+    int bus_num = 1;
 
     private GpsTracker gpsTracker;
     boolean turn;
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
     Button OnOffButton;
     Button resetButton;
+    TextView Astatus;
 
     int busy = 0;
 
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Log.d("MainActivity", "ChildEventListener - onChildChanged : " + s);
                 serverMessage = s;
+                jsonParsing();
             }
 
             @Override
@@ -187,6 +189,7 @@ public class MainActivity extends AppCompatActivity
     void bindingView(){
         OnOffButton = (Button) findViewById(R.id.drivebutton);
         resetButton = (Button) findViewById(R.id.resetbutton);
+        Astatus = findViewById(R.id.Astatus);
     }
 
     @Override
@@ -380,10 +383,11 @@ public class MainActivity extends AppCompatActivity
             JSONObject parse_item = new JSONObject(serverMessage);
 
             busy = parse_item.getInt("busy");
+            Astatus.setText(busy);
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        } catch (NullPointerException e){}
     }
 
 }
