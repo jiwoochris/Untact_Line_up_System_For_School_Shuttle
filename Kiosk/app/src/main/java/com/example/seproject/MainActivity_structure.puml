@@ -1,0 +1,232 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.example.seproject.MainActivity",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1322970774 { 
+   	label=example
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_2033384189 { 
+   	label=seproject
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Bus1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Bus</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   l1: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   l2: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   state: boolean [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataAdapter1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataAdapter</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   mContext: Context [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mDb: SQLiteDatabase [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mDbHelper: DataBaseHelper [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createDatabase(): DataAdapter</TD></TR>
+<TR><TD ALIGN="LEFT" >+ open(): DataAdapter</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DataBaseHelper1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DataBaseHelper</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   mContext: Context [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mDataBase: SQLiteDatabase [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- checkDataBase(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >- copyDataBase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createDataBase()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreate(sqLiteDatabase: SQLiteDatabase)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onUpgrade(sqLiteDatabase: SQLiteDatabase, i: int, i1: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ openDataBase(): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MainActivity1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MainActivity</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   ABC: Bus[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   MAXNUM: int[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   bus: DatabaseReference [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   busy: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   button: Button [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   current: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   currentReset: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   database: FirebaseDatabase [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   db: SQLiteDatabase [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   edit: TextView[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   inputText: EditText [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   l1: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   l2: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mDbHelper: DataAdapter [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mMap: GoogleMap [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mUiSettings: UiSettings [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   mapFragment: SupportMapFragment [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   marker: MarkerOptions[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   markerStop1: MarkerOptions [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   markerStop2: MarkerOptions [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   numOfReservation: int[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   sId: String[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   serverMessage: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   textView0: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   textView1: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   textView2: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   track1: PolylineOptions [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   track2: PolylineOptions [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tracking_thread: Thread [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   userList: List&lt;Student&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ alertBusy(num: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- bindingView()</TD></TR>
+<TR><TD ALIGN="LEFT" >- bitmapDescriptorFromVector(context: Context, vectorDrawableResourceId: int): BitmapDescriptor</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkEnough(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkValidSid(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- initLoadDB()</TD></TR>
+<TR><TD ALIGN="LEFT" ># jsonParsing()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onMapReady(googleMap: GoogleMap)</TD></TR>
+<TR><TD ALIGN="LEFT" >- resetList()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ trackLocation()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateDb(dr: DatabaseReference, value: Object)</TD></TR>
+<TR><TD ALIGN="LEFT" >- viewList()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Student1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Student</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   name: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+DataAdapter1193137706 -> DataBaseHelper1193137706[label="mDbHelper
+[0..1]"];
+MainActivity1193137706 -> Bus1193137706[label="ABC
+[0..*]"];
+MainActivity1193137706 -> DataAdapter1193137706[label="mDbHelper
+[0..1]"];
+MainActivity1193137706 -> Student1193137706[label="userList
+[0..*]"];
+    
+}
+@enduml

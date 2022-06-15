@@ -1,0 +1,169 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.example.seproject.MainActivity",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1322970774 { 
+   	label=example
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_2033384189 { 
+   	label=seproject
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   GpsTracker1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GpsTracker</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   latitude: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   location: Location [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   locationManager: LocationManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   longitude: double [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mContext: Context [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ onBind(arg0: Intent): IBinder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onLocationChanged(location: Location)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onProviderDisabled(provider: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onProviderEnabled(provider: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onStatusChanged(provider: String, status: int, extras: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ stopUsingGPS()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MainActivity1193137706[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MainActivity</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   A: DatabaseReference [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   Astatus: TextView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   OnOffButton: Button [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   REQUIRED_PERMISSIONS: String[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   bus: DatabaseReference [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   bus_num: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   bus_str: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   busy: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   database: FirebaseDatabase [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   gpsTracker: GpsTracker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   l1: DatabaseReference [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   l2: DatabaseReference [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   resetButton: Button [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   serverMessage: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   state: DatabaseReference [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   tracking_thread: Thread [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   turn: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># bindingView()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ checkLocationServicesStatus(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" ># checkRunTimePermission()</TD></TR>
+<TR><TD ALIGN="LEFT" ># jsonParsing()</TD></TR>
+<TR><TD ALIGN="LEFT" ># onActivityResult(requestCode: int, resultCode: int, data: Intent)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" ># onDestroy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onRequestPermissionsResult(permsRequestCode: int, permissions: String[], grandResults: int[])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ reset(which: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- showDialogForLocationServiceSetting()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ trackLocation()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateDb(dr: DatabaseReference, value: Object)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+MainActivity1193137706 -> GpsTracker1193137706[label="gpsTracker
+[0..1]"];
+    
+}
+@enduml
